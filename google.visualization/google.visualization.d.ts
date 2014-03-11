@@ -74,14 +74,48 @@ declare module google {
             addRows(count: number): number;
             addRows(array: DataObjectCell[][]): number;
             addRows(array: any[]): number;
+            clone(): DataTable;
+            getColumnId(columnIndex: number): string;
+            getColumnLabel(columnIndex: number): string;
+            getColumnPattern(columnIndex: number): string;
+            getColumnProperties(columnIndex: number): Object;
+            getColumnProperty(columnIndex: number, name:string): any;
+            getColumnRange(columnIndex: number): Object;
+            getColumnRole(columnIndex: number): string;
+            getColumnType(columnIndex: number): string;
+            getDistinctValues(columnIndex: number): Object[];
             getFilteredRows(filters: DataTableCellFilter[]): number[];
             getFormattedValue(rowIndex: number, columnIndex: number): string;
-            getValue(rowIndex: number, columnIndex: number): any;
             getNumberOfColumns(): number;
             getNumberOfRows(): number;
+            getProperties(rowIndex: number, columnIndex: number): Object;
+            getProperty(rowIndex: number, columnIndex: number, name: string): any;
+            getRowProperties(rowIndex: number): Object
+            getRowProperty(rowIndex: number, name: string): any;
+            getSortedRows(sortColumns: any): number[];
+            getTableProperties(): Object;
+            getTableProperty(name: string): any;
+            getValue(rowIndex: number, columnIndex: number): Object;
+            insertColumn(columnIndex: number, type: any, label?: string, id?: string): void;
+            insertRows(rowIndex: number, numberOrArray: number[]): void;
+            removeColumn(columnIndex: number): void;
+            removeColumns(columnIndex: number, numberOfColumns: number): void;
             removeRow(rowIndex: number): void;
             removeRows(rowIndex: number, numberOfRows: number): void;
+            setCell(rowIndex: number, columnIndex: number, value?: any, formattedValue?: string, properties?: Object): void;
             setColumnLabel(columnIndex: number, label: string): void;
+            setColumnProperty(columnIndex: number, name: string, value: any): void;
+            setColumnProperties(columnIndex: number, properties: Object): void;
+            setFormattedValue(rowIndex: number, columnIndex: number, formattedValue: string): void;
+            setProperty(rowIndex: number, columnIndex: number, name: string, value: any): void;
+            setProperties(rowIndex: number, columnIndex: number, properties: Object): void;
+            setRowProperty(rowIndex: number, name: string, value: any): void;
+            setRowProperties(rowIndex: number, properties: Object): void;
+            setTableProperty(name: string, value: any): void;
+            setTableProperties(properties: Object): void;
+            setValue(rowIndex: number, columnIndex: number, value: any): void;
+            sort(sortColumns: any): void;
+            toJSON(): string;
         }
 
         export interface DataTableColumnDescription {
@@ -130,8 +164,6 @@ declare module google {
             maxValue?: any;
         }
 
-        function arrayToDataTable(data: any[]): DataTable;
-
         //#endregion
         //#region DataView
 
@@ -140,6 +172,17 @@ declare module google {
             constructor(data: DataTable);
             constructor(data: DataView);
             setColumns(columnIndexes: number[]): void;
+        }
+
+        //#endregion
+        //#region IChart; Standard Chart Interface
+
+        // https://google-developers.appspot.com/chart/interactive/docs/reference#standardproperties
+        export interface IChart {
+            draw(data: DataTable, options?: Object): void;
+            draw(data: DataView, options?: Object): void;
+            getSelection(): VisualizationSelectionArray[];
+            setSelection(selection: VisualizationSelectionArray[]): void;
         }
 
         //#endregion
@@ -471,6 +514,16 @@ declare module google {
             function removeAllListeners(visualization: any): void;
             function trigger(visualization: any, eventName: string, args?: any): void;
         }
+
+        //#endregion
+
+        //#region Assorted Static Methods
+        // https://google-developers.appspot.com/chart/interactive/docs/reference#assortedmethods
+
+        function arrayToDataTable(data: any[]): DataTable;
+        function drawChart(chartJSON: string): void;
+        function drawChart(chartObject: Object): void;
+        function drawToolbar(container: HTMLElement, components: Object[]): void;
 
         //#endregion
     }
